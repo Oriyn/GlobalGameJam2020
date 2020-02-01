@@ -121,6 +121,100 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &326954607
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 326954608}
+  - component: {fileID: 326954609}
+  m_Layer: 0
+  m_Name: Gun Right
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &326954608
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 326954607}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 3.03, y: -0.76, z: -3.0730553}
+  m_LocalScale: {x: 3.5652623, y: 2.9924889, z: 0.7092199}
+  m_Children: []
+  m_Father: {fileID: 437309365}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &326954609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 326954607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83f6b9e68b35dda49911f563fd142f8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isLeft: 0
+  isRight: 0
+  bullet: {fileID: 8360576419434696389, guid: 9fc78a15e3fe07941b39838277c4b9d3, type: 3}
+  bulletSpeed: 650
+--- !u!1 &434267155
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 434267156}
+  - component: {fileID: 434267157}
+  m_Layer: 0
+  m_Name: Gun Left
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &434267156
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 434267155}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -5.22, y: -0.82, z: -3.0730553}
+  m_LocalScale: {x: 3.5652623, y: 2.9924889, z: 0.7092199}
+  m_Children: []
+  m_Father: {fileID: 437309365}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &434267157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 434267155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03fba17b60abcb044a2856da3485e6cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isLeft: 0
+  isRight: 0
+  bullet: {fileID: 8360576419434696389, guid: 9fc78a15e3fe07941b39838277c4b9d3, type: 3}
+  bulletSpeed: 650
 --- !u!1 &437309360
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,13 +294,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a00adfb6b0c0e7d42ac05f54780ad682, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletSpeed: 650
   velocity: 5
   jump: 10
   rdb2d: {fileID: 437309362}
-  bullet: {fileID: 8360576419434696389, guid: 9fc78a15e3fe07941b39838277c4b9d3, type: 3}
-  isLeft: 0
-  isRight: 0
 --- !u!212 &437309364
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -267,7 +357,9 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.415, y: -2.734, z: 0}
   m_LocalScale: {x: 0.28048426, y: 0.33416998, z: 1.41}
-  m_Children: []
+  m_Children:
+  - {fileID: 326954608}
+  - {fileID: 434267156}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
