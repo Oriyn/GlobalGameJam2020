@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class CharacterScript : MonoBehaviour
 {
+    public float bulletSpeed;
     public float velocity;
     public float jump;
     public Rigidbody2D rdb2d;
     private bool isMoving;
     private bool isGrounded;
+    public GameObject bullet;
+    public bool isLeft = false;
+    public bool isRight = false;
 
     // Start is called before the first frame update
     void Start()
@@ -37,21 +41,42 @@ public class CharacterScript : MonoBehaviour
     private void FixedUpdate()
     {
         isMoving = false;
-        if (Input.GetKey(KeyCode.Space) && isGrounded)
+        if (Input.GetKey(KeyCode.UpArrow) && isGrounded)
         {
             isMoving = true;
             rdb2d.velocity = new Vector2(rdb2d.velocity.x, jump);
         }
-        if (Input.GetKey("right"))
+        if (Input.GetKey(KeyCode.RightArrow))
         {
+            isLeft = false;
+            isRight = true;
             isMoving = true;
             rdb2d.velocity = new Vector2(velocity, rdb2d.velocity.y);
         }
-        if (Input.GetKey("left"))
+        if (Input.GetKey(KeyCode.LeftArrow))
         {
+            isLeft = true;
+            isRight = false;
             isMoving = true;
             rdb2d.velocity = new Vector2(-velocity, rdb2d.velocity.y);
         }
+        if (Input.GetKey(KeyCode.Space))
+        {
+            // Shoot
+            if (isLeft)
+            {
+                var bulletInstance = (GameObject)Instantiate(bullet, new Vector2(-3,-3), transform.rotation) as GameObject;
+                var bullRB = bulletInstance.GetComponent<Rigidbody2D>();
+                bullRB.AddForce(-transform.right * bulletSpeed);
+            }
+            if (isRight)
+            {
+                var bulletInstance = (GameObject)Instantiate(bullet, new Vector2(0,-3), transform.rotation) as GameObject;
+                var bullRB = bulletInstance.GetComponent<Rigidbody2D>();
+                bullRB.AddForce(transform.right * bulletSpeed);
+            }
+            
+        } 
         if (isMoving == false)
         {
             rdb2d.velocity = new Vector2(0, rdb2d.velocity.y);
