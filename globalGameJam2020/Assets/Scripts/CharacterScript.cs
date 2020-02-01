@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class CharacterScript : MonoBehaviour
 {
+    public static bool win;
     public float velocity;
     public float jump;
     public Rigidbody2D rdb2d;
-    private bool isMoving;
-    private bool isGrounded;
     public Animator animator;
     public SpriteRenderer mySpriteRenderer;
 
+    private int itemCount;
+    private ArrayList itemArray = new ArrayList();
+    private bool isMoving;
+    private bool isGrounded;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,14 +26,27 @@ public class CharacterScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(win);
+        if (itemCount >= 3)
+        {
+            win = true;
+        }
 
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+
         if (collision.gameObject.tag == "ground")
         {
             isGrounded = true;
+        }
+        if(collision.gameObject.tag == "Item")
+        {
+            //itemArray.Add(collision.gameObject.tag);
+            itemCount++;
+            Destroy(collision.gameObject);
+            Debug.Log(itemCount);
         }
     }
     private void OnCollisionExit2D(Collision2D collision)
