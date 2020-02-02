@@ -5,16 +5,19 @@ using UnityEngine;
 public class CharacterScript : MonoBehaviour
 {
     public static bool win;
+    public static bool dead;
     public float velocity;
     public float jump;
     public Rigidbody2D rdb2d;
     public Animator animator;
     public SpriteRenderer mySpriteRenderer;
+    public int playerHealth = 4;
+    public int itemCount;
 
-    private int itemCount;
     private ArrayList itemArray = new ArrayList();
     private bool isMoving;
     private bool isGrounded;
+    private float timeLeft = 1.0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,7 +34,11 @@ public class CharacterScript : MonoBehaviour
         {
             win = true;
         }
-
+        if (Input.GetKey(KeyCode.R) && dead)
+        {
+            Time.timeScale = 1;
+            Application.LoadLevel(0);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -48,10 +55,18 @@ public class CharacterScript : MonoBehaviour
             Destroy(collision.gameObject);
             Debug.Log(itemCount);
         }
+        if (collision.gameObject.tag == "Enemy")
+        {
+            playerHealth -= 1;
+        }
+
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
-        isGrounded = false;
+        if (collision.gameObject.tag == "ground")
+        {
+            isGrounded = false;
+        }
     }
 
     private void FixedUpdate()
@@ -88,6 +103,21 @@ public class CharacterScript : MonoBehaviour
         {
             animator.SetFloat("Speed", 0);
             rdb2d.velocity = new Vector2(0, rdb2d.velocity.y);
+        }
+        if (playerHealth <= 0)
+        {
+            Debug.Log(playerHealth);
+            // add loadlevel logic
+            dead = true;
+            animator.SetBool("Isdead", true);
+            timeLeft -= Time.deltaTime;
+            velocity = 0;
+            jump = 0;
+            mySpriteRenderer = null;
+            if (timeLeft <= 0.0f)
+            {
+                Time.timeScale = 0;
+            }
         }
     }
 }
