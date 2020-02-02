@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class EnemyScript : MonoBehaviour
 {
-    private GameObject target;
+	private float timer = 1.0f;
+	private GameObject target;
 	public Animator anim;
     public float speed;
     private int enemyHealth = 4;
@@ -18,6 +19,7 @@ public class EnemyScript : MonoBehaviour
 
 	void Start()
 	{
+		anim = GetComponent<Animator>();
 		//target = GameObject.FindGameObjectWithTag("Player");
 		localScale = transform.localScale;
 		rb = GetComponent<Rigidbody2D>();
@@ -33,7 +35,16 @@ public class EnemyScript : MonoBehaviour
 			dirX = -1f;
 
 		if (enemyHealth <= 0)
+		{
+			moveSpeed = 0;
+			anim.SetBool("IsEnemyDead", true);
+			timer -= Time.deltaTime;
+		}
+		if (timer <= 0)
+		{
+			GameObject.FindGameObjectWithTag("KillCounter").GetComponent<KillCounter>().addKill();
 			Destroy(gameObject);
+		}
 
 		/*enemyDecay -= Time.deltaTime;
 		if (enemyDecay >= 0)
@@ -71,11 +82,7 @@ public class EnemyScript : MonoBehaviour
 		{
 
 			case "Item":
-				rb.AddForce(Vector2.up * 350f);
-				break;
-
-			case "SmallStump":
-				rb.AddForce(Vector2.up * 450f);
+				rb.AddForce(Vector2.up * 250f);
 				break;
 
 			case "bullet":
@@ -86,13 +93,20 @@ public class EnemyScript : MonoBehaviour
 			case "Edge":
 				rb.AddForce(Vector2.up * 250f);
 				break;
- 
+
 		}
 	}
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
-		if ((collision.gameObject.tag != "ground" && collision.gameObject.tag != "Edge") || collision.gameObject.tag == "Enemy")
+		if ((collision.gameObject.tag != "ground" && 
+			 collision.gameObject.tag != "Edge"   &&
+			 collision.gameObject.tag != "bullet")|| 
+			 collision.gameObject.tag == "Enemy" ||
+			 (collision.gameObject.tag == "Enemy" &&
+			  collision.gameObject.tag == "ground") &&
+			  (collision.gameObject.tag == "ground" &&
+			  collision.gameObject.tag == "ground"))    
 		{
 			dirX *= -1;
 		}

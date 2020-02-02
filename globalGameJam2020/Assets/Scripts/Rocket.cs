@@ -13,6 +13,7 @@ public class Rocket : MonoBehaviour
     public bool isRocketReady;
     public bool isRocketRepairing;
     private float countDown = 4.0f;
+    private bool win = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,7 +25,6 @@ public class Rocket : MonoBehaviour
     void Update()
     {
         isWin = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterScript>().win;
-
         if (isRocketRepairing)
         {
             countDown -= Time.deltaTime;
@@ -38,17 +38,16 @@ public class Rocket : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("isWin");
-        Debug.Log(isWin);
         if (collision.gameObject.tag == "Player" && isWin)
         {
             isRocketRepairing = true;
         }
         if (collision.gameObject.tag == "Player" && isRocketReady)
         {
-            mySpriteRenderer.sprite = takeOff;
             Destroy(collision.gameObject);
+            mySpriteRenderer.sprite = takeOff;
             rdb2d.AddForce(Vector2.up * 250f);
+            win = true;
         }
     }
 }

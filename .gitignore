@@ -60,4 +60,6 @@ crashlytics-build.properties
 
 # Extra ignore files
 UnityLockfile
+*UnityTempFile
+*ShaderCache
 

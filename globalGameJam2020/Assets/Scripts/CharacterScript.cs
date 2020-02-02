@@ -6,6 +6,7 @@ public class CharacterScript : MonoBehaviour
 {
     public bool win;
     public static bool dead;
+    public bool dying;
     public float velocity;
     public float jump;
     public Rigidbody2D rdb2d;
@@ -13,7 +14,10 @@ public class CharacterScript : MonoBehaviour
     public SpriteRenderer mySpriteRenderer;
     public int playerHealth = 4;
     public int itemCount;
-
+    public AudioClip walking;
+    public AudioClip jumping;
+    public AudioClip lazer;
+    private AudioSource audio;
     private ArrayList itemArray = new ArrayList();
     private bool isMoving;
     private bool isGrounded;
@@ -24,13 +28,14 @@ public class CharacterScript : MonoBehaviour
         rdb2d = gameObject.GetComponent<Rigidbody2D>();
         animator = gameObject.GetComponent<Animator>();
         mySpriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        audio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
         //Debug.Log(win);
-        if (itemCount >= 1)
+        if (itemCount >= 2)
         {
             win = true;
         }
@@ -44,7 +49,7 @@ public class CharacterScript : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
 
-        if (collision.gameObject.tag == "ground")
+        if (collision.gameObject.tag == "ground" || collision.gameObject.tag == "Edge")
         {
             isGrounded = true;
         }
@@ -63,7 +68,7 @@ public class CharacterScript : MonoBehaviour
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "ground")
+        if (collision.gameObject.tag == "ground" && collision.gameObject.tag != "Edge")
         {
             isGrounded = false;
         }
@@ -74,12 +79,16 @@ public class CharacterScript : MonoBehaviour
         isMoving = false;
         if (Input.GetKey(KeyCode.UpArrow) && isGrounded)
         {
+            audio.clip = jumping;
+            audio.Play();
             isMoving = true;
             rdb2d.velocity = new Vector2(rdb2d.velocity.x, jump);
             animator.SetFloat("Speed", jump);
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
+            audio.clip = walking;
+            audio.Play();
             isMoving = true;
             mySpriteRenderer.flipX = false;
             animator.SetFloat("Speed", velocity);
@@ -87,6 +96,8 @@ public class CharacterScript : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.LeftArrow))
         {
+            audio.clip = walking;
+            audio.Play();
             isMoving = true;
             mySpriteRenderer.flipX = true;
             animator.SetFloat("Speed", velocity);
@@ -94,6 +105,8 @@ public class CharacterScript : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.Space))
         {
+            audio.clip = lazer;
+            audio.Play();
             animator.SetBool("isShooting", true);
         } else
         {
@@ -108,6 +121,7 @@ public class CharacterScript : MonoBehaviour
         {
             Debug.Log(playerHealth);
             // add loadlevel logic
+            dying = true;
             dead = true;
             animator.SetBool("Isdead", true);
             timeLeft -= Time.deltaTime;
