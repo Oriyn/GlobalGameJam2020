@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyScript : MonoBehaviour
 {
     private GameObject target;
+	public Animator anim;
     public float speed;
     private int enemyHealth = 4;
 	float dirX;
@@ -13,6 +14,7 @@ public class EnemyScript : MonoBehaviour
 	Rigidbody2D rb;
 	bool facingRight = false;
 	Vector3 localScale;
+	private float enemyDecay = 12.0f;
 
 	void Start()
 	{
@@ -32,6 +34,12 @@ public class EnemyScript : MonoBehaviour
 
 		if (enemyHealth <= 0)
 			Destroy(gameObject);
+
+		/*enemyDecay -= Time.deltaTime;
+		if (enemyDecay >= 0)
+		{
+			Destroy(gameObject);
+		}*/
 	}
 
 	void FixedUpdate()
@@ -75,6 +83,23 @@ public class EnemyScript : MonoBehaviour
 				Destroy(col.gameObject);
 				break;
 
+			case "Edge":
+				rb.AddForce(Vector2.up * 250f);
+				break;
+ 
+		}
+	}
+
+	private void OnCollisionEnter2D(Collision2D collision)
+	{
+		if ((collision.gameObject.tag != "ground" && collision.gameObject.tag != "Edge") || collision.gameObject.tag == "Enemy")
+		{
+			dirX *= -1;
+		}
+		if(collision.gameObject.tag == "bullet")
+		{
+			enemyHealth--;
+			Destroy(collision.gameObject);
 		}
 	}
 }

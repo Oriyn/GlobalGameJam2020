@@ -8,6 +8,8 @@ TagManager:
   - Item
   - bullet
   - Enemy
+  - Edge
+  - Rocket
   layers:
   - Default
   - TransparentFX

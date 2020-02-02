@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CharacterScript : MonoBehaviour
 {
-    public static bool win;
+    public bool win;
     public static bool dead;
     public float velocity;
     public float jump;
@@ -29,8 +29,8 @@ public class CharacterScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(win);
-        if (itemCount >= 3)
+        //Debug.Log(win);
+        if (itemCount >= 1)
         {
             win = true;
         }
@@ -53,7 +53,7 @@ public class CharacterScript : MonoBehaviour
             //itemArray.Add(collision.gameObject.tag);
             itemCount++;
             Destroy(collision.gameObject);
-            Debug.Log(itemCount);
+            //Debug.Log(itemCount);
         }
         if (collision.gameObject.tag == "Enemy")
         {

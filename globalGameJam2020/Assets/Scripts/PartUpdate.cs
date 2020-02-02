@@ -12,14 +12,26 @@ public class PartUpdate : MonoBehaviour
     void Start()
     {
         myText = GetComponent<Text>();
+        myText.text = "Collect all the parts";
     }
 
     // Update is called once per frame
     void Update()
     {
+        bool isRocketRepairing = GameObject.FindGameObjectWithTag("Rocket").GetComponent<Rocket>().isRocketRepairing;
+        bool isRocketReady = GameObject.FindGameObjectWithTag("Rocket").GetComponent<Rocket>().isRocketReady;
         int partsCollected = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterScript>().itemCount;
-        myText.text = "Parts Collected: " + partsCollected + "/3";
-
-        
+        if (partsCollected >= 3)
+        {
+            myText.text = "Go repair your rocket";
+        }
+        if (isRocketRepairing)
+        {
+            myText.text = "Repairing Rocket....";
+        }
+        if (isRocketReady)
+        {
+            myText.text = "Jump in your rocket!";
+        }
     }
 }
